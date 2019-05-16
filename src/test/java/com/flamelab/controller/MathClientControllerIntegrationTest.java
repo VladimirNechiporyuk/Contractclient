@@ -27,9 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class MathClientControllerIntegrationTest {
 
     private int positiveNumber = 5;
-    private int negativeNumber = -5;
     private int positiveMultiplier = 4;
-    private int negativeMultiplier = -10;
     private int zero = 0;
 
     @Autowired
@@ -45,28 +43,6 @@ public class MathClientControllerIntegrationTest {
                 .get(String.format("/math/multiply?number=%s&multiplier=%s",
                         Integer.toString(positiveNumber),
                         Integer.toString(positiveMultiplier))))
-                .andExpect(status().isOk())
-                .andExpect(content().string(Integer.toString(resultOfMultiplying)));
-    }
-
-    @Test
-    public void multiplyPositiveAndNegativeNumbers() throws Exception {
-        int resultOfMultiplying = positiveNumber * negativeMultiplier;
-        mockMvc.perform(MockMvcRequestBuilders
-                .get(String.format("/math/multiply?number=%s&multiplier=%s",
-                        Integer.toString(positiveNumber),
-                        Integer.toString(negativeMultiplier))))
-                .andExpect(status().isOk())
-                .andExpect(content().string(Integer.toString(resultOfMultiplying)));
-    }
-
-    @Test
-    public void multiplyNegativeNumbers() throws Exception {
-        int resultOfMultiplying = negativeNumber * negativeMultiplier;
-        mockMvc.perform(MockMvcRequestBuilders
-                .get(String.format("/math/multiply?number=%s&multiplier=%s",
-                        Integer.toString(negativeNumber),
-                        Integer.toString(negativeMultiplier))))
                 .andExpect(status().isOk())
                 .andExpect(content().string(Integer.toString(resultOfMultiplying)));
     }
@@ -92,27 +68,10 @@ public class MathClientControllerIntegrationTest {
     }
 
     @Test
-    public void clientMultiplyPositiveAndNegativeNumbers() {
-        Integer resultOfMultiplying = positiveNumber * negativeMultiplier;
-        Integer restMultiplying = contractFeignClient.multiplyNumber(positiveNumber, negativeMultiplier);
-
-        assertEquals(restMultiplying, resultOfMultiplying);
-    }
-
-    @Test
-    public void clientMultiplyNegativeNumbers() {
-        Integer resultOfMultiplying = negativeNumber * negativeMultiplier;
-        Integer restMultiplying = contractFeignClient.multiplyNumber(negativeNumber, negativeMultiplier);
-
-        assertEquals(restMultiplying, resultOfMultiplying);
-    }
-
-    @Test
     public void clientMultiplyNumberAndZero() {
         Integer resultOfMultiplying = positiveNumber * zero;
         Integer restMultiplying = contractFeignClient.multiplyNumber(positiveNumber, zero);
 
         assertEquals(restMultiplying, resultOfMultiplying);
     }
-
 }
