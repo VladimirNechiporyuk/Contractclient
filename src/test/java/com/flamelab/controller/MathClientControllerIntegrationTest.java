@@ -22,8 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @AutoConfigureJsonTesters
 @AutoConfigureStubRunner(
-        workOffline = true,
-        stabsMode = StubRunnerProperties,
+        stubsMode = StubRunnerProperties.StubsMode.REMOTE,
         ids = "com.flamelab:contract-server:+:stubs:8181")
 public class MathClientControllerIntegrationTest {
 
