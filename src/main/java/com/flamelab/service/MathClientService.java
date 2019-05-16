@@ -1,6 +1,6 @@
 package com.flamelab.service;
 
-import com.flamelab.client.ContractClient;
+import com.flamelab.client.ContractFeignClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 public class MathClientService {
 
     @Autowired
-    private ContractClient contractClient;
+    private ContractFeignClient contractFeignClient;
 
     public Integer multiplyNumbers(Integer number, Integer multiplier) {
-        return contractClient.multiplyNumber(number, multiplier);
+        return contractFeignClient.multiplyNumber(number, multiplier);
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @FeignClient(value = "contract-server")
-public interface ContractClient {
+public interface ContractFeignClient {
 
     @GetMapping("math/")
     @ResponseBody
