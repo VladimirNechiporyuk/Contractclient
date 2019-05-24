@@ -26,8 +26,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         ids = "com.flamelab:contract-server:+:stubs:8181")
 public class MathClientControllerIntegrationTest {
 
-    private int positiveNumber = 5;
-    private int positiveMultiplier = 4;
+    private int number = 5;
+    private int multiplier = 4;
     private int zero = 0;
 
     @Autowired
@@ -37,41 +37,41 @@ public class MathClientControllerIntegrationTest {
     private ContractFeignClient contractFeignClient;
 
     @Test
-    public void multiplyPositiveNumbers() throws Exception {
-        int resultOfMultiplying = positiveNumber * positiveMultiplier;
+    public void multiplyNumbers() throws Exception {
+        int resultOfMultiplying = number * multiplier;
         mockMvc.perform(MockMvcRequestBuilders
                 .get(String.format("/math/multiply?number=%s&multiplier=%s",
-                        Integer.toString(positiveNumber),
-                        Integer.toString(positiveMultiplier))))
+                        Integer.toString(number),
+                        Integer.toString(multiplier))))
                 .andExpect(status().isOk())
                 .andExpect(content().string(Integer.toString(resultOfMultiplying)));
     }
 
     @Test
     public void multiplyNumberAndZero() throws Exception {
-        int resultOfMultiplying = positiveNumber * zero;
+        int resultOfMultiplying = number * zero;
         mockMvc.perform(MockMvcRequestBuilders
                 .get(String.format("/math/multiply?number=%s&multiplier=%s",
-                        Integer.toString(positiveNumber),
+                        Integer.toString(number),
                         Integer.toString(zero))))
                 .andExpect(status().isOk())
                 .andExpect(content().string(Integer.toString(resultOfMultiplying)));
     }
 
     @Test
-    public void clientMultiplyPositiveNumbers() {
-        Integer resultOfMultiplying = positiveNumber * positiveMultiplier;
+    public void clientMultiplyNumbers() {
+        Integer resultOfMultiplying = number * multiplier;
 
-        Integer restMultiplying = contractFeignClient.multiplyNumber(positiveNumber, positiveMultiplier);
+        Integer resultOfMultiplyingFromProducer = contractFeignClient.multiplyNumber(number, multiplier);
 
-        assertEquals(restMultiplying, resultOfMultiplying);
+        assertEquals(resultOfMultiplyingFromProducer, resultOfMultiplying);
     }
 
     @Test
     public void clientMultiplyNumberAndZero() {
-        Integer resultOfMultiplying = positiveNumber * zero;
-        Integer restMultiplying = contractFeignClient.multiplyNumber(positiveNumber, zero);
+        Integer resultOfMultiplying = number * zero;
+        Integer resultOfMultiplyingFromProducer = contractFeignClient.multiplyNumber(number, zero);
 
-        assertEquals(restMultiplying, resultOfMultiplying);
+        assertEquals(resultOfMultiplyingFromProducer, resultOfMultiplying);
     }
 }
